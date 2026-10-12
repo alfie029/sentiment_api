@@ -1,0 +1,26 @@
+[project]
+name = "sentiment-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Alfie Zhang", email = "alfiezhang@seismic.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard]>=0.143.0",
+    "pydantic-ai[openai]>=2.55.0",
+]
+
+[project.scripts]
+sentiment-api = "sentiment_api:main"
+
+[build-system]
+requires = ["uv_build>=0.12.21,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
+]
