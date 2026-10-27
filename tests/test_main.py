@@ -17,6 +17,10 @@ def _item(i: int) -> dict:
     return {"index": i, "label": "positive", "score": 0.5, "rationale": "ok"}
 
 
+def test_healthz():
+    assert TestClient(app).get("/healthz").json() == {"status": "ok"}
+
+
 def test_one_call_returns_verdict_per_review():
     try:
         resp = _client_with([_item(0), _item(1)]).post("/sentiment", json={"reviews": ["fine", "good"]})

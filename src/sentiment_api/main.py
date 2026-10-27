@@ -12,6 +12,11 @@ app = FastAPI(title="Sentiment API")
 AgentDep = Annotated[Agent[None, BatchSentiment], Depends(get_agent)]
 
 
+@app.get("/healthz")
+async def healthz() -> dict[str, str]:
+    return {"status": "ok"}
+
+
 @app.post("/sentiment", response_model=SentimentResponse)
 async def analyze(req: ReviewRequest, agent: AgentDep) -> SentimentResponse:
     payload = json.dumps([{"index": i, "review": r} for i, r in enumerate(req.reviews)])
