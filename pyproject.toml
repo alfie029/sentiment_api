@@ -10,7 +10,17 @@ requires-python = ">=3.14"
 dependencies = [
     "fastapi[standard]>=0.143.0",
     "pydantic-ai[openai]>=2.55.0",
+    "seismic-auth>=1.1.0",
 ]
+
+[[tool.uv.index]]
+name = "private-registry"
+url = "https://seismic.jfrog.io/artifactory/api/pypi/pypi-local/simple"
+explicit = true
+authenticate = "always"
+
+[tool.uv.sources]
+seismic-auth = { index = "private-registry" }
 
 [project.scripts]
 sentiment-api = "sentiment_api:main"

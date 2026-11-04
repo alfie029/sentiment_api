@@ -13,11 +13,19 @@ WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=secret,id=jfrog_user \
+    --mount=type=secret,id=jfrog_token \
+    UV_INDEX_PRIVATE_REGISTRY_USERNAME="$(cat /run/secrets/jfrog_user)" \
+    UV_INDEX_PRIVATE_REGISTRY_PASSWORD="$(cat /run/secrets/jfrog_token)" \
     uv sync --locked --no-install-project --no-editable --no-dev
 
 # Then the project itself.
 COPY . .
 RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=secret,id=jfrog_user \
+    --mount=type=secret,id=jfrog_token \
+    UV_INDEX_PRIVATE_REGISTRY_USERNAME="$(cat /run/secrets/jfrog_user)" \
+    UV_INDEX_PRIVATE_REGISTRY_PASSWORD="$(cat /run/secrets/jfrog_token)" \
     uv sync --locked --no-editable --no-dev
 
 FROM python:3.14-slim-trixie AS runtime
